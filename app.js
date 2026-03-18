@@ -19,29 +19,46 @@ function renderPagina(num) {
         const canvas = document.getElementById('pdf-render');
         const ctx = canvas.getContext('2d');
 
-        const viewport = page.getViewport({ scale: 1.5 });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        const isMobile = window.innerWidth < 768;
+
+        const viewport = page.getViewport({ scale: 1 });
+
+        let scale;
+
+        if (isMobile) {
+            // 📱 Celular → ocupar todo el ancho
+            scale = window.innerWidth / viewport.width;
+        } else {
+            // 💻 PC → mantener diseño centrado bonito
+            scale = (window.innerWidth * 0.6) / viewport.width;
+        }
+
+        const scaledViewport = page.getViewport({ scale });
+
+        canvas.height = scaledViewport.height;
+        canvas.width = scaledViewport.width;
 
         page.render({
             canvasContext: ctx,
-            viewport: viewport
+            viewport: scaledViewport
         });
     });
 }
-
 // Navegación
+// Navegación GLOBAL (todo el PDF)
+let paginaGlobal = 1;
+
 function siguiente() {
-    if (paginaActualIndex < paginasActuales.length - 1) {
-        paginaActualIndex++;
-        renderPagina(paginasActuales[paginaActualIndex]);
+    if (paginaGlobal < pdfDoc.numPages) {
+        paginaGlobal++;
+        renderPagina(paginaGlobal);
     }
 }
 
 function anterior() {
-    if (paginaActualIndex > 0) {
-        paginaActualIndex--;
-        renderPagina(paginasActuales[paginaActualIndex]);
+    if (paginaGlobal > 1) {
+        paginaGlobal--;
+        renderPagina(paginaGlobal);
     }
 }
 
@@ -64,14 +81,20 @@ fetch('secciones.json')
         const btn = document.createElement("button");
         btn.innerText = sec.nombre;
 
-        btn.onclick = () => {
-            paginasActuales = sec.paginas;
-            paginaActualIndex = 0;
-            renderPagina(paginasActuales[0]);
+       btn.onclick = () => {
+    paginasActuales = sec.paginas;
+    paginaActualIndex = 0;
 
-            cerrarMenu(); // 🔥 se cierra automáticamente
+    paginaGlobal = sec.paginas[0]; // 👈 CLAVE
+    renderPagina(paginaGlobal);
+
+    cerrarMenu();
         };
 
         menu.appendChild(btn);
     });
+});
+
+window.addEventListener('resize', () => {
+    renderPagina(paginaGlobal);
 });
