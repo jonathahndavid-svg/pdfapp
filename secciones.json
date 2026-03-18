@@ -1,0 +1,20 @@
+{
+  "secciones": [
+    {
+      "nombre": "Introducción",
+      "paginas": [1]
+    },
+    {
+      "nombre": "Capítulo 1",
+      "paginas": [2]
+    },
+     {
+      "nombre": "Capítulo 2",
+      "paginas": [3]
+    },
+    {
+      "nombre": "Capítulo 3",
+      "paginas": [4]
+    }
+  ]
+}

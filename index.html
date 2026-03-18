@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>App PDF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <div class="sidebar" id="menu"></div>
+
+  <div class="viewer">
+    <canvas id="pdf-render"></canvas>
+
+    <div class="controls">
+      <button onclick="anterior()">⬅</button>
+      <span id="page-info"></span>
+      <button onclick="siguiente()">➡</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
