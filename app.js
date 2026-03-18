@@ -7,9 +7,13 @@ const url = 'archivo.pdf';
 // Cargar PDF
 pdfjsLib.getDocument(url).promise.then(pdf => {
     pdfDoc = pdf;
+
+    // 👉 Mostrar SIEMPRE la página 1 al iniciar
+    paginasActuales = [1];
+    renderPagina(1);
 });
 
-// Renderizar página
+// Renderizar
 function renderPagina(num) {
     pdfDoc.getPage(num).then(page => {
         const canvas = document.getElementById('pdf-render');
@@ -23,8 +27,6 @@ function renderPagina(num) {
             canvasContext: ctx,
             viewport: viewport
         });
-
-        document.getElementById('page-info').innerText = `Página ${num}`;
     });
 }
 
@@ -43,6 +45,15 @@ function anterior() {
     }
 }
 
+// Popup
+function abrirMenu() {
+    document.getElementById("popup").style.display = "flex";
+}
+
+function cerrarMenu() {
+    document.getElementById("popup").style.display = "none";
+}
+
 // Cargar secciones
 fetch('secciones.json')
 .then(res => res.json())
@@ -57,6 +68,8 @@ fetch('secciones.json')
             paginasActuales = sec.paginas;
             paginaActualIndex = 0;
             renderPagina(paginasActuales[0]);
+
+            cerrarMenu(); // 🔥 se cierra automáticamente
         };
 
         menu.appendChild(btn);
