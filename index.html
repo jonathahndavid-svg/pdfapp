@@ -7,19 +7,25 @@
 </head>
 <body>
 
-<div class="app">
+<div class="viewer">
 
-  <div class="sidebar" id="menu"></div>
+  <!-- Botón menú -->
+  <button class="menu-btn" onclick="abrirMenu()">☰</button>
 
-  <div class="viewer">
-    <canvas id="pdf-render"></canvas>
-
-    <div class="controls">
-      <button onclick="anterior()">⬅</button>
-      <span id="page-info"></span>
-      <button onclick="siguiente()">➡</button>
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <button class="close-btn" onclick="cerrarMenu()">✖</button>
+      <div id="menu"></div>
     </div>
   </div>
+
+  <!-- Canvas PDF -->
+  <canvas id="pdf-render"></canvas>
+
+  <!-- Flechas -->
+  <button class="nav left" onclick="anterior()">⬅</button>
+  <button class="nav right" onclick="siguiente()">➡</button>
 
 </div>
 
